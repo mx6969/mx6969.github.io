@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Mysql索引</title>
+      <link href="/post/f79dc38d.html"/>
+      <url>/post/f79dc38d.html</url>
+      
+        <content type="html"><![CDATA[<p>什么是事务？<br>事务可以使一组操作要么全部成功，要么全部失败。<br>事务的目的是为了保证数据的最终一致性。</p><p>数据库事务需要存储引擎的支持而 MySQL的默认存储引擎InnoDB就支持事务。<br>在 MySQL 命令行的默认设置下，事务都是自动提交的，即执行 SQL 语句后就会马上执行 COMMIT 操作。因此要显式地开启一个事务务须使用命令 BEGIN 或 START TRANSACTION，或者执行命令 SET AUTOCOMMIT&#x3D;0，用来禁止使用当前会话的自动提交。</p><p>事务的特性<br>事务的特性也就是我们常说的 ACID模型</p><p>原子性（Atomicity）：当前事务的操作要么同时成功，要么同时失败。原子性由undo log日志来保证（记载着数据修改前的信息）。<br>一致性（Consistency）：一致性可以理解为我们使用事务的目的，而隔离性、原子性、持久性均是为了保障一致性的手段，保证一致性还需要由应用程序代码来保证。<br>隔离性（Isolation）：在事务并发执行时，他们内部的操作不能互相干扰。如果多个事务可以同时操作一个数据，就会产生脏读、不可重复读、幻读的问题。<br>持久性（Durability）：一旦提交了事务，它对数据库的改变就应该是永久性的。说白了就是，它会将数据库持久化在硬盘上。<br>并发事务中的3个问题<br>脏读：事务A 读取到了另一个事务B 未提交的数据（事务B 可能会进行回滚操作），从而导致事务A 读取了一个不存在的脏数据。<br>不可重复读：在同一个事务中，同一个查询在不同的时间得到了不同的结果。例如事务在 T1读取到了某一行数据，在 T2时间重新读取这一行的时候，这一行的数据已经发生修改，所以再次读取时得到了一个和 T1查询时不同的结果。<br>幻读：MySQL对幻读的定义如下：The so-called phantom problem occurs within a transaction when the same query produces different sets of rows at different times. For example, if a SELECT is executed twice, but returns a row the second time that was not returned the first time, the row is a “phantom” row. 翻译为中文是：同一个查询在不同时间得到了不同的结果，这就是事务中的幻读问题。例如，一个 SELECT 被执行了两次，但是第二次返回了第一次没有返回的一行，那么这一行就是一个“幻像”行。（幻读指的是范围查询）<br>为了解决这些问题又产生了隔离级别</p><p>事务的四种隔离级别<br>读未提交（read uncommit）：又叫未提交读，该隔离级别因为可以读取到其他事务中未提交的数据（而未提交的数据可能会发生回滚），因此我们把该级别读取到的数据称之为脏数据，把这个问题称之为脏读。<br>读已提交（read commit）：又叫提交读，该隔离级别的事务能读取到已经提交的事务的数据，因此它不会有脏读的问题，但是由于在事务的执行中可以读取到其他事务提交的结果，所以在不同时间的相同SQL查询中，可能会得到不同的结果，这种现象叫做不可重复读。<br>可重复读（repeatable read）：InnoDB默认的事务隔离级别，可重复读可以解决“不可重复读”的问题，但还存在幻读的问题。<br>串行化（serializable）：也叫序列化，事务的最高级别，它会强制事务排序，使之不会发生冲突，从而解决了脏读、不可重复读和幻读的问题，但因为执行效率低，所以真正使用的场景不多。<br>不同的隔离级别对事务之间的隔离性是不一样的（级别越高事务的隔离性越好，但是性能就越低），而隔离性是由MySQL的各种锁来实现的，只是它屏蔽了加锁的细节。</p><p>各隔离级别对应的问题：</p><p>隔离级别脏读不可重复读幻读<br>读未提交（read uncommit）√√√<br>读已提交（read commit）×√√<br>可重复读（repeatable read）××√<br>串行化（serializable）×××<br>MySQL通过MVCC（多版本并发控制）解决了幻读问题</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/post/4a17b156.html"/>
+      <url>/post/4a17b156.html</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
